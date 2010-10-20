@@ -20,40 +20,35 @@ public class FileListView {
 	// **************************************************************************//
 	// Members //
 	// **************************************************************************//
-	private Boolean m_active = false;
+	private Activity myContext;
 
-	private Activity m_context;
+	private ListView myListView;
 
-	private ListView m_listView;
+	private String myCurDir = START_DIR;
 
-	private String m_curDir = ".";
+	private String myCurFile = START_DIR;
 
-	private String m_curFile = ".";
-
-	private List<String> m_history = new ArrayList<String>();
+	private List<String> myHistory = new ArrayList<String>();
 
 	// **************************************************************************//
 	// Constructors //
 	// **************************************************************************//
 	public FileListView(Activity context, ListView listView) {
-		m_context = context;
-		m_listView = listView;
-		m_history.add(m_curDir);
-		goAtDir(m_curDir);
+		myContext = context;
+		myListView = listView;
+		goAtDir(myCurDir);
 
-		m_listView.setFocusableInTouchMode(true);
+		myListView.setFocusableInTouchMode(true);
 
-		m_listView.setTextFilterEnabled(true);
-		m_listView.setOnItemClickListener(new OnItemClickListener() {
+		myListView.setTextFilterEnabled(true);
+		myListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO - correct selection
+				
 				view.setSelected(true);
-				m_curFile = ((TextView) view).getText().toString();
-				if (m_curFile.equals("..")) {
-					m_history.add(m_curFile);
-					goAtDir(m_curDir + "/" + m_curFile);
-				}
+				myCurFile = ((TextView) view).getText().toString();
+				goAtDir(myCurDir + "/" + myCurFile);
 			}
 		});
 
@@ -63,28 +58,25 @@ public class FileListView {
 	// Getters //
 	// **************************************************************************//
 	public ListView getListView() {
-		return m_listView;
+		return myListView;
 	}
 
 	// **************************************************************************//
 	// Setters //
 	// **************************************************************************//
-	public void setActive(Boolean active) {
-		m_active = active;
-	}
 
 	// **************************************************************************//
 	// Publics //
 	// **************************************************************************//
-	public Boolean isActive() {
-		return m_active;
+	public void goAtBack(){
+		if (!myCurDir.equals(START_DIR)){
+			String backPath = myHistory.remove(myHistory.size() - 1);
+			myCurDir = myCurDir.substring(0, myCurDir.length() - backPath.length() - 1);
+			myListView.setAdapter(new ArrayAdapter<String>(myContext,
+					R.layout.list_item, new File(myCurDir).list()));
+		}
 	}
-
-	public void goAtCurrentDir() {
-		m_history.add(m_curFile);
-		goAtDir(m_curDir + "/" + m_curFile);
-	}
-
+	
 	// **************************************************************************//
 	// Abstracts //
 	// **************************************************************************//
@@ -97,34 +89,15 @@ public class FileListView {
 	// Privates //
 	// **************************************************************************//
 	private void goAtDir(String path) {
-		if (path.endsWith("..") && m_history.size() == 2) {
-			path = path.substring(0, path.length() - 3);
-			m_history.remove(m_history.size() - 1);
-			return;
-		}
-		if (path.endsWith("..")) {
-			path = path.substring(0, path.length() - 3);
-			m_history.remove(m_history.size() - 1);
-			int length = m_history.remove(m_history.size() - 1).length() + 1;
-			path = path.substring(0, path.length() - length);
-		}
-		goAtDir(new File(path));
-	}
-
-	private void goAtDir(File file) {
+		File file = new File(path);
 		if (file.isDirectory()) {
-			m_curDir = file.getPath();
-			int l = file.list().length;
-			String files[] = new String[l + 1];
-			files[0] = "..";
-			System.arraycopy(file.list(), 0, files, 1, file.list().length);
-			m_listView.setAdapter(new ArrayAdapter<String>(m_context,
-					R.layout.list_item, files));
-		} else {
-			m_history.remove(m_history.size() - 1);
+			myCurDir = path;
+			myHistory.add(myCurFile);
+			myListView.setAdapter(new ArrayAdapter<String>(myContext,
+					R.layout.list_item, file.list()));
 		}
 	}
-
+	
 	// **************************************************************************//
 	// Public Statics //
 	// **************************************************************************//
@@ -132,7 +105,8 @@ public class FileListView {
 	// **************************************************************************//
 	// Private Statics //
 	// **************************************************************************//
-
+	private static final String START_DIR = ".";
+	
 	// **************************************************************************//
 	// Internal Classes //
 	// **************************************************************************//

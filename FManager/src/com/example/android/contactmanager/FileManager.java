@@ -34,20 +34,9 @@ public final class FileManager extends Activity {
 	// **************************************************************************//
 	// Members //
 	// **************************************************************************//
-	private Button m_mkDirButton;
 
-	private Button m_delButton;
-
-	private Button m_copyButton;
-
-	private Button m_moveButton;
-
-	private Button m_openButton;
-
-	private FileListView m_simpleListView1;
-
-	private FileListView m_simpleListView2;
-
+	FileListView myFileListView;
+	
 	// **************************************************************************//
 	// Constructors //
 	// **************************************************************************//
@@ -71,72 +60,56 @@ public final class FileManager extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.v(TAG, "Activity State: onCreate()");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.contact_manager);
+		setContentView(R.layout.file_manager);
 
 		// Obtain handles to UI objects
-		m_mkDirButton = (Button) findViewById(R.id.mkDirButton);
-		m_delButton = (Button) findViewById(R.id.delButton);
-		m_copyButton = (Button) findViewById(R.id.copyButton);
-		m_moveButton = (Button) findViewById(R.id.moveButton);
-		m_openButton = (Button) findViewById(R.id.openButton);
+		Button mkDirButton = (Button) findViewById(R.id.mkDirButton);
+		Button delButton = (Button) findViewById(R.id.delButton);
+		Button copyButton = (Button) findViewById(R.id.copyButton);
+		Button moveButton = (Button) findViewById(R.id.moveButton);
+		Button backButton = (Button) findViewById(R.id.backButton);
+		Button openButton = (Button) findViewById(R.id.openButton);
 		ListView fileList1 = (ListView) findViewById(R.id.fileList1);
-		ListView fileList2 = (ListView) findViewById(R.id.fileList2);
+	
+		myFileListView = new FileListView(this, fileList1);
 
-		m_simpleListView1 = new FileListView(this, fileList1);
-		m_simpleListView2 = new FileListView(this, fileList2);
-
-		m_mkDirButton.setOnClickListener(new View.OnClickListener() {
+		mkDirButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// TODO
 			}
 		});
 
-		m_delButton.setOnClickListener(new View.OnClickListener() {
+		delButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// TODO
 			}
 		});
 
-		m_copyButton.setOnClickListener(new View.OnClickListener() {
+		copyButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// TODO
 			}
 		});
 
-		m_moveButton.setOnClickListener(new View.OnClickListener() {
+		moveButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// TODO
 			}
 		});
 
-		m_openButton.setOnClickListener(new View.OnClickListener() {
+		backButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if (m_simpleListView1.isActive())
-					m_simpleListView1.goAtCurrentDir();
-				else
-					m_simpleListView2.goAtCurrentDir();
+				myFileListView.goAtBack();
+			}
+		});
+		
+		
+		openButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				// DELETE LATER
 			}
 		});
 
-		m_simpleListView1.getListView().setOnTouchListener(
-				new OnTouchListener() {
-					@Override
-					public boolean onTouch(View v, MotionEvent event) {
-						m_simpleListView1.setActive(true);
-						m_simpleListView2.setActive(false);
-						return false;
-					}
-				});
-
-		m_simpleListView2.getListView().setOnTouchListener(
-				new OnTouchListener() {
-					@Override
-					public boolean onTouch(View v, MotionEvent event) {
-						m_simpleListView2.setActive(true);
-						m_simpleListView1.setActive(false);
-						return false;
-					}
-				});
 	}
 
 	// **************************************************************************//
