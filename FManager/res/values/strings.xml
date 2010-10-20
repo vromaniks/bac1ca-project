@@ -31,10 +31,16 @@
     <string name="targetAccountLabel">Target Account</string>
     <string name="undefinedTypeLabel">(Undefined)</string>
 
-	<string name="mkdir">new</string>
-	<string name="delete">rm</string>
-	<string name="copy">copy</string>
-	<string name="move">move</string>
-	<string name="open">open</string>
 	<string name="back">back</string>
+	<string name="filter">filter</string>
+
+	<string name="ok">ok</string>
+	<string name="cancel">cancel</string>
+
+	<string name="typeDIR">dir</string>
+	<string name="typePDF">.pdf</string>
+	<string name="typeDOC">.doc</string>
+	<string name="typeDOCX">.docx</string>
+	<string name="typePNG">.png</string>
+	<string name="typeJPG">.jpg</string>
 </resources>

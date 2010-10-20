@@ -1,31 +1,16 @@
-/*
- * Copyright (C) 2009 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.example.android.contactmanager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.CheckBox;
 
-public final class FileManager extends Activity {
-
+public class FilterView extends Activity{
 	// **************************************************************************//
 	// Enums //
 	// **************************************************************************//
@@ -33,8 +18,8 @@ public final class FileManager extends Activity {
 	// **************************************************************************//
 	// Members //
 	// **************************************************************************//
-
-	FileListView myFileListView;
+	
+	List<CheckBox> myListChBox = new ArrayList<CheckBox>();
 	
 	// **************************************************************************//
 	// Constructors //
@@ -57,30 +42,33 @@ public final class FileManager extends Activity {
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.v(TAG, "Activity State: onCreate()");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.file_manager);
+		setContentView(R.layout.filter);
 
-		// Obtain handles to UI objects
-		Button filterButton = (Button) findViewById(R.id.filterButton);
-		Button backButton = (Button) findViewById(R.id.backButton);
-		ListView fileList1 = (ListView) findViewById(R.id.fileList1);
-	
-		myFileListView = new FileListView(this, fileList1);
+		myListChBox.add((CheckBox) findViewById(R.id.checkboxTypePDF));
+		myListChBox.add((CheckBox) findViewById(R.id.checkboxTypeDOC));
+		
+		Button cancelButton = (Button) findViewById(R.id.cancelButton);
+		Button okButton = (Button) findViewById(R.id.okButton);
 
-		filterButton.setOnClickListener(new View.OnClickListener() {
+		
+		cancelButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				launchFilterView();
+				finish();
 			}
 		});
-		
-		backButton.setOnClickListener(new View.OnClickListener() {
+
+		okButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				myFileListView.goAtBack();
+				String filterStr = "";
+				for (CheckBox ch : myListChBox){
+					if (ch.isChecked())
+						filterStr += " " + ch.getText().toString();
+				}
+				setResult(1, new Intent(filterStr));
+				finish();
 			}
 		});
-		
-		
 	}
 
 	// **************************************************************************//
@@ -90,35 +78,14 @@ public final class FileManager extends Activity {
 	// **************************************************************************//
 	// Protected //
 	// **************************************************************************//
-    protected void launchFilterView() {
-        Intent i = new Intent(this, FilterView.class);
-        startActivityForResult(i, 1);
-        //        startActivityForResult(i, 1);
-    }
 
-//	@Override
-//	protected void onNewIntent(Intent intent) {
-//		super.onNewIntent(intent);
-//		myFileListView.setFilter(intent.getAction());
-//	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (data != null)
-			myFileListView.setFilter(data.getAction());
-	}
-    
 	// **************************************************************************//
 	// Privates //
 	// **************************************************************************//
 
-
-
 	// **************************************************************************//
 	// Public Statics //
 	// **************************************************************************//
-	public static final String TAG = "FileManager";
 
 	// **************************************************************************//
 	// Private Statics //
@@ -127,4 +94,6 @@ public final class FileManager extends Activity {
 	// **************************************************************************//
 	// Internal Classes //
 	// **************************************************************************//
+	
+	
 }

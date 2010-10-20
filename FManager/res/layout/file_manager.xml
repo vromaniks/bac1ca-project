@@ -26,41 +26,17 @@
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_weight="1">
-		    <Button 
+			<Button 
 		    	android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
-		        android:id="@+id/mkDirButton"
-		        android:text="@string/mkdir"
-		        android:layout_weight="1"/>
-		    <Button 
-		    	android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:id="@+id/delButton"
-		        android:text="@string/delete"
-		        android:layout_weight="1"/>                 
-		    <Button 
-		    	android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:id="@+id/copyButton"
-		        android:text="@string/copy"
-				android:layout_weight="1"/>
-		    <Button 
-		    	android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:id="@+id/moveButton"
-		        android:text="@string/move"
+		        android:id="@+id/filterButton"
+		        android:text="@string/filter"
 		        android:layout_weight="1"/>
 			<Button 
 		    	android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:id="@+id/backButton"
 		        android:text="@string/back"
-		        android:layout_weight="1"/>
-			<Button 
-		    	android:layout_width="fill_parent"
-		        android:layout_height="wrap_content"
-		        android:id="@+id/openButton"
-		        android:text="@string/open"
 		        android:layout_weight="1"/>
 		</LinearLayout>	
     </TableRow>
