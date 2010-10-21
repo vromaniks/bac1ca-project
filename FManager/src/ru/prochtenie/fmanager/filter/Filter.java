@@ -14,6 +14,7 @@ public class Filter {
 	
 	
 	
+	
 	public String getFilterTypes() {
 		return myFilterTypes;
 	}
