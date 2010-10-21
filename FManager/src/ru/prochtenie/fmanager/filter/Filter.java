@@ -2,7 +2,6 @@ package ru.prochtenie.fmanager.filter;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -10,10 +9,6 @@ public class Filter {
 	private String myCurDir = "";
 	private String myFilterTypes = "";
 	private List<String> myResultList = new ArrayList<String>();
-	
-	
-	
-	
 	
 	public String getFilterTypes() {
 		return myFilterTypes;
