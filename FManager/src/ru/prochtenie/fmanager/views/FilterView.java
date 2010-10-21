@@ -1,15 +1,16 @@
-package ru.prochtenie.fmanager.utils;
+package ru.prochtenie.fmanager.views;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileUtils {
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 
+public class FilterView extends Activity{
 	// **************************************************************************//
 	// Enums //
 	// **************************************************************************//
@@ -17,7 +18,9 @@ public class FileUtils {
 	// **************************************************************************//
 	// Members //
 	// **************************************************************************//
-
+	
+	List<CheckBox> myListChBox = new ArrayList<CheckBox>();
+	
 	// **************************************************************************//
 	// Constructors //
 	// **************************************************************************//
@@ -33,6 +36,44 @@ public class FileUtils {
 	// **************************************************************************//
 	// Publics //
 	// **************************************************************************//
+	/**
+	 * Called when the activity is first created. Responsible for initializing
+	 * the UI.
+	 */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.filter);
+
+		myListChBox.add((CheckBox) findViewById(R.id.checkboxTypeTXT));
+		myListChBox.add((CheckBox) findViewById(R.id.checkboxTypeFB2));
+		myListChBox.add((CheckBox) findViewById(R.id.checkboxTypePDF));
+		myListChBox.add((CheckBox) findViewById(R.id.checkboxTypeDOC));
+		myListChBox.add((CheckBox) findViewById(R.id.checkboxTypeDOCX));
+
+		
+		Button cancelButton = (Button) findViewById(R.id.cancelButton);
+		Button okButton = (Button) findViewById(R.id.okButton);
+
+		
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				finish();
+			}
+		});
+
+		okButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				String filterStr = "";
+				for (CheckBox ch : myListChBox){
+					if (ch.isChecked())
+						filterStr += ch.getText().toString() + " ";
+				}
+				setResult(1, new Intent(filterStr));
+				finish();
+			}
+		});
+	}
 
 	// **************************************************************************//
 	// Abstracts //
@@ -50,57 +91,13 @@ public class FileUtils {
 	// Public Statics //
 	// **************************************************************************//
 
-	// unstable - not testing
-	public static void copyRecursive(String src, String path)
-			throws IOException {
-		// TODO
-		File file = new File(src);
-		if (file.isDirectory()) {
-			path += src;
-			for (String f : file.list()) {
-				copyRecursive(f, path);
-				copyFile(f, path + f);
-			}
-		}
-	}
-
-	// stable
-	public static void copyFile(String src, String target) throws IOException {
-		FileChannel ic = new FileInputStream(src).getChannel();
-		FileChannel oc = new FileOutputStream(target).getChannel();
-		ic.transferTo(0, ic.size(), oc);
-		ic.close();
-		oc.close();
-	}
-
-	public static List<String> getFiltredList(File[] files, String types){
-		List<String> resultList = new ArrayList<String>();
-		for(File file : files){
-			if (file.isDirectory())
-				resultList.add(file.getName());
-			else if (condition(file, types))
-				resultList.add(file.getName());
-		}
-		return resultList;
-	}
-
 	// **************************************************************************//
 	// Private Statics //
 	// **************************************************************************//
-	private static boolean condition(File file, String types) {
-		return condition(file.getName(), types);
-	}
-	
-	private static boolean condition(String val, String types) {
-		for (String type : types.split("[\\s]+")) {
-			if (val.endsWith(type))
-				return true;
-		}
-		return false;
-	}
-	
+
 	// **************************************************************************//
 	// Internal Classes //
 	// **************************************************************************//
-
+	
+	
 }
