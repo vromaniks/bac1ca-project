@@ -35,6 +35,10 @@ public class FileListView {
 	private List<String> myHistory = new ArrayList<String>();
 	
 	private String myFilterTypes = "";
+
+	// **************************************************************************//
+	// Members for dynamic loading //
+	// **************************************************************************//
 	
 	private ArrayAdapter<String> myAdapter;
 	
@@ -54,7 +58,8 @@ public class FileListView {
 	public FileListView(Activity parent, ListView listView) {
 		myParent = parent;
 		myListView = listView;
-		
+
+		// set parameters ProgressDialog
 		myProgressDialog = new ProgressDialog(myParent);
 		myProgressDialog.setTitle("Please wait...");
 		myProgressDialog.setMessage("Retrieving data ...");
