@@ -41,6 +41,7 @@
 	<string name="typeFB2">.fb2</string>
 	<string name="typePDF">.pdf</string>
 	<string name="typeDOC">.doc</string>
+	<string name="typeODT">.odt</string>
 	<string name="typeDOCX">.docx</string>
 	<string name="checkBoxAll">all types</string>
 </resources>

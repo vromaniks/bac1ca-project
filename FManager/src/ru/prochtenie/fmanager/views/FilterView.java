@@ -52,7 +52,8 @@ public class FilterView extends Activity{
 		myListChBox.add((CheckBox) findViewById(R.id.checkboxTypePDF));
 		myListChBox.add((CheckBox) findViewById(R.id.checkboxTypeDOC));
 		myListChBox.add((CheckBox) findViewById(R.id.checkboxTypeDOCX));
-
+		myListChBox.add((CheckBox) findViewById(R.id.checkboxTypeODT));
+		
 		setCurrentTypes();
 		
 		CheckBox checkBoxAll = (CheckBox)findViewById(R.id.checkboxAll);

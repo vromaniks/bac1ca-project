@@ -97,7 +97,7 @@ public class SmartFilter implements Runnable {
 				// код будет красивее
 				// timeKiller() - работаем c файлом
 				// FIXME delete later!!!
-				timeKiller(); // TODO DELETE LATER
+//				timeKiller(); // TODO DELETE LATER
 
 				String fileName = null;
 				if (!condition(file, delTypes))
@@ -122,7 +122,7 @@ public class SmartFilter implements Runnable {
 				// код будет красивее
 				// timeKiller() - работаем c файлом
 				// FIXME delete later!!!
-				timeKiller(); // TODO DELETE LATER
+//				timeKiller(); // TODO DELETE LATER
 
 				String fileName = null;
 				if (file.isDirectory())

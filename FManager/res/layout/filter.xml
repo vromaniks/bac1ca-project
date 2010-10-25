@@ -70,6 +70,14 @@
 
        	<TableRow>
         	<CheckBox
+        		android:id="@+id/checkboxTypeODT"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:text="@string/typeODT" />    
+        </TableRow>
+
+       	<TableRow>
+        	<CheckBox
         		android:id="@+id/checkboxAll"
         		android:layout_width="wrap_content"
         		android:layout_height="wrap_content"
