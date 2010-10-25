@@ -42,4 +42,5 @@
 	<string name="typePDF">.pdf</string>
 	<string name="typeDOC">.doc</string>
 	<string name="typeDOCX">.docx</string>
+	<string name="checkBoxAll">all types</string>
 </resources>
