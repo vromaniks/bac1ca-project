@@ -2,11 +2,13 @@ package ru.prochtenie.fmanager.views;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import ru.prochtenie.fmanager.filter.Filter;
-
+import ru.prochtenie.fmanager.runnable.ReturnRes;
+import ru.prochtenie.fmanager.runnable.SmartFilter;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,7 +24,7 @@ public class FileListView {
 	// **************************************************************************//
 	// Members //
 	// **************************************************************************//
-	private Activity myContext;
+	private Activity myParent;
 
 	private ListView myListView;
 
@@ -31,22 +33,39 @@ public class FileListView {
 	private String myCurFile = START_DIR;
 
 	private List<String> myHistory = new ArrayList<String>();
-
-
-	
-	
-	private Filter myFilter = new Filter();
 	
 	private String myFilterTypes = "";
+	
+	private ArrayAdapter<String> myAdapter;
+	
+	private List<String> myOrders = Collections.synchronizedList(new ArrayList<String>());
+	
+	private SmartFilter myFilter;
+	
+	private ReturnRes myReturnRes;
+	
+	private Thread myCurFilterThread;
+	
+	private ProgressDialog myProgressDialog;
 	
 	// **************************************************************************//
 	// Constructors //
 	// **************************************************************************//
-	public FileListView(Activity context, ListView listView) {
-		myContext = context;
+	public FileListView(Activity parent, ListView listView) {
+		myParent = parent;
 		myListView = listView;
-		goAtDir(myCurDir);
-
+		
+		myProgressDialog = new ProgressDialog(myParent);
+		myProgressDialog.setTitle("Please wait...");
+		myProgressDialog.setMessage("Retrieving data ...");
+		
+		myAdapter = new ArrayAdapter<String>(myParent, R.layout.list_item);
+		myListView.setAdapter(myAdapter);
+		myReturnRes = new ReturnRes(myOrders, myAdapter, myProgressDialog);
+		myFilter = new SmartFilter(myParent, myOrders, myReturnRes);
+		
+		init(myCurDir);
+		
 		myListView.setTextFilterEnabled(true);
 		myListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -70,10 +89,13 @@ public class FileListView {
 		return myListView;
 	}
 
+	public String getFilterTypes(){
+		return myFilterTypes;
+	}
 	// **************************************************************************//
 	// Setters //
 	// **************************************************************************//
-
+	
 	// **************************************************************************//
 	// Publics //
 	// **************************************************************************//
@@ -90,6 +112,7 @@ public class FileListView {
 			goAtDir(myCurDir);
 		}
 	}
+
 	// **************************************************************************//
 	// Abstracts //
 	// **************************************************************************//
@@ -102,25 +125,27 @@ public class FileListView {
 	// Privates //
 	// **************************************************************************//
 	
-	// stable
 	private void back(){
 		String dir = myHistory.remove(myHistory.size() - 1);
 		myCurDir = myCurDir.substring(0, myCurDir.length() - dir.length() - 1);
 	}
 	
-	private void goAtDir(String path) {
+	private void init(String path){
 		File file = new File(path);
-		if (file.isDirectory()) {		// ненужная проверка
-			myCurDir = path;
-			if (myFilterTypes.equals("")){			
-				myListView.setAdapter(new ArrayAdapter<String>(myContext,
-						R.layout.list_item, file.list()));
-			}else{
-				List<String> resultList = myFilter.getFilteredList(file, myFilterTypes);
-				myListView.setAdapter(new ArrayAdapter<String>(myContext,
-						R.layout.list_item, resultList.toArray(new String[0])));
-			}
-		}
+		myFilter.setPreferences(file, myFilterTypes);
+		myCurFilterThread = new Thread(null, myFilter, "MagentoBackground");
+		myCurFilterThread.start();
+	}
+	
+	private void goAtDir(String path) {
+		myProgressDialog.show();
+		File file = new File(path);
+		myCurDir = path;
+		myCurFilterThread.interrupt();
+		myFilter.setPreferences(file, myFilterTypes);
+		myCurFilterThread = new Thread(null, myFilter, "MagentoBackground");
+		myCurFilterThread.start();
+		
 	}
 	
 	// **************************************************************************//

@@ -64,9 +64,9 @@ public final class FileManager extends Activity {
 		// Obtain handles to UI objects
 		Button filterButton = (Button) findViewById(R.id.filterButton);
 		Button backButton = (Button) findViewById(R.id.backButton);
-		ListView fileList1 = (ListView) findViewById(R.id.fileList1);
+		ListView fileList = (ListView) findViewById(R.id.fileList1);
 	
-		myFileListView = new FileListView(this, fileList1);
+		myFileListView = new FileListView(this, fileList);
 
 		filterButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -80,7 +80,6 @@ public final class FileManager extends Activity {
 			}
 		});
 		
-		
 	}
 
 	// **************************************************************************//
@@ -92,15 +91,9 @@ public final class FileManager extends Activity {
 	// **************************************************************************//
     protected void launchFilterView() {
         Intent i = new Intent(this, FilterView.class);
+        i.setAction(myFileListView.getFilterTypes());
         startActivityForResult(i, 1);
-        //        startActivityForResult(i, 1);
     }
-
-//	@Override
-//	protected void onNewIntent(Intent intent) {
-//		super.onNewIntent(intent);
-//		myFileListView.setFilter(intent.getAction());
-//	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -112,8 +105,6 @@ public final class FileManager extends Activity {
 	// **************************************************************************//
 	// Privates //
 	// **************************************************************************//
-
-
 
 	// **************************************************************************//
 	// Public Statics //

@@ -51,10 +51,10 @@ public class FilterView extends Activity{
 		myListChBox.add((CheckBox) findViewById(R.id.checkboxTypeDOC));
 		myListChBox.add((CheckBox) findViewById(R.id.checkboxTypeDOCX));
 
+		setCurrentTypes();
 		
 		Button cancelButton = (Button) findViewById(R.id.cancelButton);
 		Button okButton = (Button) findViewById(R.id.okButton);
-
 		
 		cancelButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -86,7 +86,20 @@ public class FilterView extends Activity{
 	// **************************************************************************//
 	// Privates //
 	// **************************************************************************//
-
+	private void setCurrentTypes(){
+		String types = getIntent().getAction();
+		if (types.equals(""))
+			return;
+		for (String type : types.split("[\\s]+")) {
+			for(CheckBox chBox : myListChBox){
+				if (type.equals(chBox.getText().toString())){
+					chBox.setChecked(true);
+					break;
+				}
+			}
+		}
+	}
+	
 	// **************************************************************************//
 	// Public Statics //
 	// **************************************************************************//
