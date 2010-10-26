@@ -49,7 +49,6 @@ public class ReturnRes implements Runnable {
 		myAdapter.notifyDataSetChanged();
 	}
 	
-	@Override
 	public void run() {
 		if (myOrders != null && myOrders.size() > 0) {
 			myAdapter.notifyDataSetChanged();

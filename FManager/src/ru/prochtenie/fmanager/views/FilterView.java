@@ -58,7 +58,6 @@ public class FilterView extends Activity{
 		
 		CheckBox checkBoxAll = (CheckBox)findViewById(R.id.checkboxAll);
 		checkBoxAll.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				for (CheckBox ch : myListChBox){
 					ch.setChecked(isChecked);

@@ -53,7 +53,6 @@ public class SmartFilter implements Runnable {
 		((ReturnRes) myAction).refresh();
 	}
 
-	@Override
 	public void run() {
 		getOrders();
 	}
