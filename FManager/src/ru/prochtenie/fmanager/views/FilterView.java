@@ -3,6 +3,10 @@ package ru.prochtenie.fmanager.views;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.prochtenie.fmanager.views.R;
+import ru.prochtenie.fmanager.views.R.id;
+import ru.prochtenie.fmanager.views.R.layout;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

@@ -16,12 +16,16 @@
 
 package ru.prochtenie.fmanager.views;
 
+import ru.prochtenie.fmanager.views.R;
+import ru.prochtenie.fmanager.views.R.id;
+import ru.prochtenie.fmanager.views.R.layout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 public final class FileManager extends Activity {
@@ -57,17 +61,45 @@ public final class FileManager extends Activity {
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.v(TAG, "Activity State: onCreate()");
+		Log.v(FILE_MANAGER_LOG_TAG, "onCreate()");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_manager);
 
 		// Obtain handles to UI objects
-		Button filterButton = (Button) findViewById(R.id.filterButton);
-		Button backButton = (Button) findViewById(R.id.backButton);
+		ImageButton fbhomeButton = (ImageButton) findViewById(R.id.fmanagerFBHomeButton);
+		ImageButton cardButton = (ImageButton) findViewById(R.id.fmanagerCardButton);
+		ImageButton rootButton = (ImageButton) findViewById(R.id.fmanagerRootButton);
+		ImageButton filterButton = (ImageButton) findViewById(R.id.fmanagerFilterButton);
+		ImageButton backButton = (ImageButton) findViewById(R.id.fmanagerBackButton);
+
+		Button okButton = (Button) findViewById(R.id.fmanagerOkButton);
+		Button cancelButton = (Button) findViewById(R.id.fmanagerOkButton);
+		
 		ListView fileList = (ListView) findViewById(R.id.fileList1);
-	
 		myFileListView = new FileListView(this, fileList);
 
+		
+		fbhomeButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				// TODO
+				myFileListView.goAtDir(FB_HOME_DIR);
+			}
+		});
+		
+		cardButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				// TODO
+				myFileListView.goAtDir(SDCARD_DIR);
+			}
+		});
+		
+		rootButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				// TODO
+				myFileListView.goAtDir(ROOT_DIR);
+			}
+		});
+		
 		filterButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				launchFilterView();
@@ -109,12 +141,15 @@ public final class FileManager extends Activity {
 	// **************************************************************************//
 	// Public Statics //
 	// **************************************************************************//
-	public static final String TAG = "FileManager";
-
+	public static String FILE_MANAGER_LOG_TAG = "FileManager";
+	
 	// **************************************************************************//
 	// Private Statics //
 	// **************************************************************************//
-
+	private static String FB_HOME_DIR = "./sdcard/Book";
+	private static String ROOT_DIR = ".";
+	private static String SDCARD_DIR = "./sdcard";
+	
 	// **************************************************************************//
 	// Internal Classes //
 	// **************************************************************************//
