@@ -38,6 +38,7 @@
 	<!-- bac1ca fmanager project -->
 
 	<string name="filter_activity">filter</string>
+	<string name="filter">filter</string>
 
 	<string name="fmanagerBackButton">back</string>
 	<string name="fmanagerFBHomeButton">fbhome</string>
